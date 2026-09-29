@@ -1,4 +1,4 @@
-package it.unicam.cs.mpgc.rpg125861.Entity;
+package it.unicam.cs.mpgc.rpg125861.entity;
 
 
     public class Hero {
