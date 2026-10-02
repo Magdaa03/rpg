@@ -40,5 +40,12 @@ public class GameService {
         if (currentMonsterIndex < monsters.size()) {
             currentMonsterIndex++;
         }
+
+    }
+    public void checkMonsterDefeated() {
+        if (currentMonsterIndex < monsters.size()
+                && getCurrentMonster().getHealth() <= 0) {
+            moveToNextMonster();
+        }
     }
 }
