@@ -16,6 +16,25 @@ public class GameController {
         this.gameService = gameService;
         this.combatService = combatService;
     }
+    public int getHeroHealth() {
+        return gameService.getHero().getHealth();
+    }
+
+    public String getMonsterName() {
+        return gameService.getCurrentMonster().getName();
+    }
+
+    public int getMonsterHealth() {
+        return gameService.getCurrentMonster().getHealth();
+    }
+    public boolean isVictory() {
+        return gameService.isVictory();
+    }
+
+    public boolean isDefeat() {
+        return gameService.isDefeat();
+    }
+
     public void quickAttack() {
         combatService.quickAttack(gameService.getCurrentMonster());
 
