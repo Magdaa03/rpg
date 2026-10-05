@@ -6,15 +6,21 @@ import it.unicam.cs.mpgc.rpg125861.entity.Hero;
 import it.unicam.cs.mpgc.rpg125861.entity.Monster;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class GameController {
 
     private final GameService gameService;
     private final CombatService combatService;
 
+    private final List<String> lastTurnMessages = new ArrayList<>();
+
     public GameController(GameService gameService, CombatService combatService) {
         this.gameService = gameService;
         this.combatService = combatService;
+    }
+    public List<String> getLastTurnMessages() {
+        return List.copyOf(lastTurnMessages);
     }
     public int getHeroHealth() {
         return gameService.getHero().getHealth();
@@ -36,26 +42,28 @@ public class GameController {
     }
 
     public void quickAttack() {
-        combatService.quickAttack(gameService.getCurrentMonster());
+        Monster attackedMonster = gameService.getCurrentMonster();
 
+        combatService.quickAttack(attackedMonster);
         gameService.checkMonsterDefeated();
 
-        if (!gameService.isGameOver()) {
+        if (attackedMonster.getHealth() > 0 && !gameService.isGameOver()) {
             combatService.monsterAttack(
                     gameService.getHero(),
-                    gameService.getCurrentMonster()
+                    attackedMonster
             );
         }
     }
     public boolean powerfulAttack() {
-        boolean hit = combatService.powerfulAttack(gameService.getCurrentMonster());
+        Monster attackedMonster = gameService.getCurrentMonster();
 
+        boolean hit = combatService.powerfulAttack(attackedMonster);
         gameService.checkMonsterDefeated();
 
-        if (!gameService.isGameOver()) {
+        if (attackedMonster.getHealth() > 0 && !gameService.isGameOver()) {
             combatService.monsterAttack(
                     gameService.getHero(),
-                    gameService.getCurrentMonster()
+                    attackedMonster
             );
         }
 
