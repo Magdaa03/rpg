@@ -42,33 +42,76 @@ public class GameController {
     }
 
     public void quickAttack() {
-        Monster attackedMonster = gameService.getCurrentMonster();
+        lastTurnMessages.clear();
 
+        if (gameService.isGameOver()) {
+            return;
+        }
+
+        Monster attackedMonster = gameService.getCurrentMonster();
         combatService.quickAttack(attackedMonster);
-        gameService.checkMonsterDefeated();
+        lastTurnMessages.add("Quick attack: 5 damage.");
 
-        if (attackedMonster.getHealth() > 0 && !gameService.isGameOver()) {
-            combatService.monsterAttack(
-                    gameService.getHero(),
-                    attackedMonster
-            );
-        }
+        gameService.checkMonsterDefeated();
+        finishMonsterTurn(attackedMonster);
     }
+
     public boolean powerfulAttack() {
-        Monster attackedMonster = gameService.getCurrentMonster();
+        lastTurnMessages.clear();
 
-        boolean hit = combatService.powerfulAttack(attackedMonster);
-        gameService.checkMonsterDefeated();
-
-        if (attackedMonster.getHealth() > 0 && !gameService.isGameOver()) {
-            combatService.monsterAttack(
-                    gameService.getHero(),
-                    attackedMonster
-            );
+        if (gameService.isGameOver()) {
+            return false;
         }
+
+        Monster attackedMonster = gameService.getCurrentMonster();
+        boolean hit = combatService.powerfulAttack(attackedMonster);
+
+        if (hit) {
+            lastTurnMessages.add("Powerful attack hit: 10 damage.");
+        } else {
+            lastTurnMessages.add("Powerful attack missed.");
+        }
+
+        gameService.checkMonsterDefeated();
+        finishMonsterTurn(attackedMonster);
 
         return hit;
     }
+
+    private void finishMonsterTurn(Monster attackedMonster) {
+        if (attackedMonster.getHealth() <= 0) {
+            lastTurnMessages.add(attackedMonster.getName() + " defeated.");
+
+            if (gameService.isVictory()) {
+                lastTurnMessages.add("Victory! You defeated all monsters.");
+            } else {
+                lastTurnMessages.add(
+                        "Next monster: "
+                                + gameService.getCurrentMonster().getName()
+                );
+            }
+
+            return;
+        }
+
+        int heroHealthBeforeAttack = gameService.getHero().getHealth();
+        combatService.monsterAttack(gameService.getHero(), attackedMonster);
+
+        int damageTaken = heroHealthBeforeAttack
+                - gameService.getHero().getHealth();
+
+        lastTurnMessages.add(
+                attackedMonster.getName()
+                        + " counterattacks for "
+                        + damageTaken
+                        + " damage."
+        );
+
+        if (gameService.isDefeat()) {
+            lastTurnMessages.add("Defeat: the hero has no health left.");
+        }
+    }
+
     public static GameController newGame(String heroName) {
         Hero hero = new Hero(heroName);
 

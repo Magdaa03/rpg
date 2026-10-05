@@ -44,8 +44,9 @@ public class MainApp extends Application {
             } else {
                 messageLabel.setText("Quick Attack: HIT!");
             }
-            logArea.appendText(messageLabel.getText() + System.lineSeparator());
-
+            for (String message : gameController.getLastTurnMessages()) {
+                logArea.appendText(message + System.lineSeparator());
+            }
             updateLabels(
                     gameController,
                     heroLabel,
@@ -66,7 +67,9 @@ public class MainApp extends Application {
             } else {
                 messageLabel.setText("Powerful Attack: MISS!");
             }
-            logArea.appendText(messageLabel.getText() + System.lineSeparator());
+            for (String message : gameController.getLastTurnMessages()) {
+                logArea.appendText(message + System.lineSeparator());
+            }
 
             updateLabels(
                     gameController,
