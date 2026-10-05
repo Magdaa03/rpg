@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.scene.control.TextArea;
 
 public class MainApp extends Application {
 
@@ -24,6 +25,10 @@ public class MainApp extends Application {
         );
 
         Label messageLabel = new Label();
+        TextArea logArea = new TextArea();
+        logArea.setEditable(false);
+        logArea.setWrapText(true);
+        logArea.setPrefRowCount(8);
 
         Button quickAttackButton = new Button("Quick Attack");
         Button powerfulAttackButton = new Button("Powerful Attack");
@@ -39,6 +44,7 @@ public class MainApp extends Application {
             } else {
                 messageLabel.setText("Quick Attack: HIT!");
             }
+            logArea.appendText(messageLabel.getText() + System.lineSeparator());
 
             updateLabels(
                     gameController,
@@ -60,6 +66,7 @@ public class MainApp extends Application {
             } else {
                 messageLabel.setText("Powerful Attack: MISS!");
             }
+            logArea.appendText(messageLabel.getText() + System.lineSeparator());
 
             updateLabels(
                     gameController,
@@ -73,6 +80,7 @@ public class MainApp extends Application {
                 heroLabel,
                 monsterLabel,
                 messageLabel,
+                logArea,
                 quickAttackButton,
                 powerfulAttackButton
         );
