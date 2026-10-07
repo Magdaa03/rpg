@@ -22,6 +22,14 @@ public class Monster {
         return health;
     }
 
+    public void restoreHealth(int health) {
+        if (health < 0 || health > maxHealth) {
+            throw new IllegalArgumentException("Health value is out of range.");
+        }
+
+        this.health = health;
+    }
+
     public int getMaxHealth() {
         return maxHealth;
     }

@@ -21,6 +21,14 @@ package it.unicam.cs.mpgc.rpg125861.entity;
             return health;
         }
 
+        public void restoreHealth(int health) {
+            if (health < 0 || health > maxHealth) {
+                throw new IllegalArgumentException("Health value is out of range.");
+            }
+
+            this.health = health;
+        }
+
         public int getMaxHealth() {
             return maxHealth;
         }

@@ -4,9 +4,11 @@ import it.unicam.cs.mpgc.rpg125861.service.CombatService;
 import it.unicam.cs.mpgc.rpg125861.service.GameService;
 import it.unicam.cs.mpgc.rpg125861.entity.Hero;
 import it.unicam.cs.mpgc.rpg125861.entity.Monster;
+import it.unicam.cs.mpgc.rpg125861.persistence.GameSaveData;
 
 import java.util.List;
 import java.util.ArrayList;
+
 
 public class GameController {
 
@@ -110,6 +112,25 @@ public class GameController {
         if (gameService.isDefeat()) {
             lastTurnMessages.add("Defeat: the hero has no health left.");
         }
+    }
+    public GameSaveData createSaveData() {
+        GameSaveData saveData = new GameSaveData();
+
+        saveData.setHeroName(gameService.getHero().getName());
+        saveData.setHeroHealth(gameService.getHero().getHealth());
+        saveData.setCurrentMonsterIndex(
+                gameService.getCurrentMonsterIndex()
+        );
+
+        List<Integer> monsterHealths = new ArrayList<>();
+
+        for (Monster monster : gameService.getMonsters()) {
+            monsterHealths.add(monster.getHealth());
+        }
+
+        saveData.setMonsterHealths(monsterHealths);
+
+        return saveData;
     }
 
     public static GameController newGame(String heroName) {

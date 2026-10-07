@@ -24,6 +24,13 @@ public class GameService {
     public Monster getCurrentMonster() {
         return monsters.get(currentMonsterIndex);
     }
+    public List<Monster> getMonsters() {
+        return List.copyOf(monsters);
+    }
+
+    public int getCurrentMonsterIndex() {
+        return currentMonsterIndex;
+    }
     public boolean isVictory() {
         return currentMonsterIndex >= monsters.size();
     }
