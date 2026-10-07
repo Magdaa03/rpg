@@ -2,7 +2,6 @@ package it.unicam.cs.mpgc.rpg125861.controller;
 
 import it.unicam.cs.mpgc.rpg125861.service.CombatService;
 import it.unicam.cs.mpgc.rpg125861.service.GameService;
-import it.unicam.cs.mpgc.rpg125861.entity.Hero;
 import it.unicam.cs.mpgc.rpg125861.entity.Monster;
 import it.unicam.cs.mpgc.rpg125861.persistence.GameSaveData;
 
@@ -133,19 +132,5 @@ public class GameController {
         return saveData;
     }
 
-    public static GameController newGame(String heroName) {
-        Hero hero = new Hero(heroName);
-
-        List<Monster> monsters = List.of(
-                new Monster("Goblin", 12, 2),
-                new Monster("Orc", 18, 2),
-                new Monster("Dragon", 25, 2)
-        );
-
-        GameService gameService = new GameService(hero, monsters);
-        CombatService combatService = new CombatService();
-
-        return new GameController(gameService, combatService);
-    }
 }
 
