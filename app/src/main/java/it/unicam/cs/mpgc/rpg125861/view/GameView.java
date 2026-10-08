@@ -19,6 +19,7 @@ public class GameView extends VBox {
     private final Label monsterLabel = new Label();
     private final Label messageLabel = new Label();
     private final TextArea logArea = new TextArea();
+    private final GameArenaView arenaView = new GameArenaView();
 
     public GameView(
             GameController gameController,
@@ -54,6 +55,7 @@ public class GameView extends VBox {
                 heroLabel,
                 monsterLabel,
                 messageLabel,
+                arenaView,
                 logArea,
                 saveButton,
                 loadButton,

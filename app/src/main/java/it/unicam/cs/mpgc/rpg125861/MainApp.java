@@ -17,7 +17,7 @@ public class MainApp extends Application {
         GameRepository gameRepository = new JsonGameRepository();
         GameView gameView = new GameView(gameController, gameRepository);
 
-        Scene scene = new Scene(gameView, 500, 400);
+        Scene scene = new Scene(gameView, 1000, 700);
 
         stage.setTitle("Monster Hunter RPG");
         stage.setScene(scene);
