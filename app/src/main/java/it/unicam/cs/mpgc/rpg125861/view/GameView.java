@@ -2,6 +2,7 @@ package it.unicam.cs.mpgc.rpg125861.view;
 
 import it.unicam.cs.mpgc.rpg125861.controller.GameController;
 import it.unicam.cs.mpgc.rpg125861.persistence.GameRepository;
+import it.unicam.cs.mpgc.rpg125861.controller.GameFactory;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -11,7 +12,7 @@ import java.io.IOException;
 
 public class GameView extends VBox {
 
-    private final GameController gameController;
+    private GameController gameController;
     private final GameRepository gameRepository;
 
     private final Label heroLabel = new Label();
@@ -41,10 +42,12 @@ public class GameView extends VBox {
         Button saveButton = new Button("Save Game");
         Button quickAttackButton = new Button("Quick Attack");
         Button powerfulAttackButton = new Button("Powerful Attack");
+        Button loadButton = new Button("Load Game");
 
         saveButton.setOnAction(event -> saveGame());
         quickAttackButton.setOnAction(event -> handleQuickAttack());
         powerfulAttackButton.setOnAction(event -> handlePowerfulAttack());
+        loadButton.setOnAction(event -> loadGame());
 
         setSpacing(15);
         getChildren().addAll(
@@ -53,6 +56,7 @@ public class GameView extends VBox {
                 messageLabel,
                 logArea,
                 saveButton,
+                loadButton,
                 quickAttackButton,
                 powerfulAttackButton
         );
@@ -67,6 +71,26 @@ public class GameView extends VBox {
             messageLabel.setText("Unable to save the game.");
             logArea.appendText(
                     "Error while saving the game."
+                            + System.lineSeparator()
+            );
+        }
+    }
+    private void loadGame() {
+        if (!gameRepository.hasSave()) {
+            messageLabel.setText("No saved game found.");
+            return;
+        }
+
+        try {
+            gameController = GameFactory.loadGame(gameRepository.load());
+            messageLabel.setText("Game loaded.");
+            logArea.clear();
+            logArea.appendText("Game loaded." + System.lineSeparator());
+            updateLabels();
+        } catch (IOException | IllegalArgumentException exception) {
+            messageLabel.setText("Unable to load the game.");
+            logArea.appendText(
+                    "Error while loading the game."
                             + System.lineSeparator()
             );
         }
