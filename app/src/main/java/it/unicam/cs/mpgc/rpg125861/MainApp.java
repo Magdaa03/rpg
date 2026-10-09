@@ -19,6 +19,8 @@ public class MainApp extends Application {
 
         Scene scene = new Scene(gameView, 1000, 700);
 
+
+
         stage.setTitle("Monster Hunter RPG");
         stage.setScene(scene);
         stage.show();

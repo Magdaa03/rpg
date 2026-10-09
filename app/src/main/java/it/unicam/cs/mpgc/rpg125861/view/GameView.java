@@ -5,8 +5,14 @@ import it.unicam.cs.mpgc.rpg125861.persistence.GameRepository;
 import it.unicam.cs.mpgc.rpg125861.controller.GameFactory;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
+import javafx.geometry.Pos;
 
 import java.io.IOException;
 
@@ -18,7 +24,7 @@ public class GameView extends VBox {
     private final Label heroLabel = new Label();
     private final Label monsterLabel = new Label();
     private final Label messageLabel = new Label();
-    private final TextArea logArea = new TextArea();
+    private final Label logArea = new Label();
     private final GameArenaView arenaView = new GameArenaView();
 
     public GameView(
@@ -29,14 +35,31 @@ public class GameView extends VBox {
         this.gameRepository = gameRepository;
 
         configureLogArea();
+        configureLabels();
+        configureBackground();
         configureLayout();
         updateLabels();
     }
 
     private void configureLogArea() {
-        logArea.setEditable(false);
         logArea.setWrapText(true);
-        logArea.setPrefRowCount(8);
+        logArea.setMaxWidth(600);
+        logArea.setStyle("-fx-text-fill: white;");
+    }
+    private void appendLog(String message) {
+        logArea.setText(
+                logArea.getText() + message + System.lineSeparator()
+        );
+    }
+
+    private void configureLabels() {
+        String labelStyle =
+                "-fx-text-fill: white;"
+                        + "-fx-background-color: rgba(0, 0, 0, 0.55);"
+                        + "-fx-padding: 6 10 6 10;";
+
+        heroLabel.setStyle(labelStyle);
+        monsterLabel.setStyle(labelStyle);
     }
 
     private void configureLayout() {
@@ -51,6 +74,7 @@ public class GameView extends VBox {
         loadButton.setOnAction(event -> loadGame());
 
         setSpacing(15);
+        setAlignment(Pos.CENTER);
         getChildren().addAll(
                 heroLabel,
                 monsterLabel,
@@ -68,13 +92,10 @@ public class GameView extends VBox {
         try {
             gameRepository.save(gameController.createSaveData());
             messageLabel.setText("Game saved.");
-            logArea.appendText("Game saved." + System.lineSeparator());
+            appendLog("Game saved.");
         } catch (IOException exception) {
             messageLabel.setText("Unable to save the game.");
-            logArea.appendText(
-                    "Error while saving the game."
-                            + System.lineSeparator()
-            );
+            appendLog("Error while saving the game.");
         }
     }
     private void loadGame() {
@@ -86,15 +107,12 @@ public class GameView extends VBox {
         try {
             gameController = GameFactory.loadGame(gameRepository.load());
             messageLabel.setText("Game loaded.");
-            logArea.clear();
-            logArea.appendText("Game loaded." + System.lineSeparator());
+            logArea.setText("");
+            appendLog("Game loaded.");
             updateLabels();
         } catch (IOException | IllegalArgumentException exception) {
             messageLabel.setText("Unable to load the game.");
-            logArea.appendText(
-                    "Error while loading the game."
-                            + System.lineSeparator()
-            );
+            appendLog("Error while loading the game.");
         }
     }
 
@@ -130,7 +148,7 @@ public class GameView extends VBox {
 
     private void showTurnMessages() {
         for (String message : gameController.getLastTurnMessages()) {
-            logArea.appendText(message + System.lineSeparator());
+            appendLog(message);
         }
     }
 
@@ -149,5 +167,20 @@ public class GameView extends VBox {
                             + " - HP: " + gameController.getMonsterHealth()
             );
         }
+    }
+    private void configureBackground() {
+        Image image = new Image(
+                getClass().getResource("/battleback1.png").toExternalForm()
+        );
+
+        BackgroundImage backgroundImage = new BackgroundImage(
+                image,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER,
+                new BackgroundSize(100, 100, true, true, false, true)
+        );
+
+        setBackground(new Background(backgroundImage));
     }
 }
