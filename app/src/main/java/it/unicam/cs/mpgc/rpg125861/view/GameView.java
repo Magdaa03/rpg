@@ -13,6 +13,7 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.geometry.Pos;
+import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 
@@ -75,17 +76,22 @@ public class GameView extends VBox {
 
         setSpacing(15);
         setAlignment(Pos.CENTER);
+        HBox logContainer = new HBox(logArea);
+        logContainer.setAlignment(Pos.CENTER_LEFT);
+        logContainer.setMaxWidth(Double.MAX_VALUE);
+
         getChildren().addAll(
                 heroLabel,
                 monsterLabel,
                 messageLabel,
                 arenaView,
-                logArea,
+                logContainer,
                 saveButton,
                 loadButton,
                 quickAttackButton,
                 powerfulAttackButton
         );
+
     }
 
     private void saveGame() {
