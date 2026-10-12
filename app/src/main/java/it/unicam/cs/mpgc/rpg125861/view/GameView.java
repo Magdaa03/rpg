@@ -168,12 +168,16 @@ public class GameView extends VBox {
         } else if (gameController.isDefeat()) {
             monsterLabel.setText("Defeat!");
         } else {
+            String currentMonsterName = gameController.getMonsterName();
+            arenaView.showMonster(currentMonsterName);
+
             monsterLabel.setText(
-                    "Monster: " + gameController.getMonsterName()
+                    "Monster: " + currentMonsterName
                             + " - HP: " + gameController.getMonsterHealth()
             );
         }
     }
+
     private void configureBackground() {
         Image image = new Image(
                 getClass().getResource("/battleback1.png").toExternalForm()

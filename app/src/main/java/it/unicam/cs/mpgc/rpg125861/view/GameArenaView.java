@@ -1,17 +1,24 @@
 package it.unicam.cs.mpgc.rpg125861.view;
 
-import javafx.scene.layout.Pane;
+import javafx.geometry.Pos;
+import javafx.scene.layout.HBox;
 
-public class GameArenaView extends Pane {
+public class GameArenaView extends HBox {
+
+    private final MonsterView monsterView = new MonsterView();
 
     public GameArenaView() {
         setPrefHeight(420);
-        setMinHeight(200);
+        setMinHeight(300);
+        setMaxWidth(Double.MAX_VALUE);
+        setAlignment(Pos.CENTER);
+        setSpacing(250);
 
         HeroView heroView = new HeroView();
-        heroView.setLayoutX(100);
-        heroView.setLayoutY(220);
+        getChildren().addAll(heroView, monsterView);
+    }
 
-        getChildren().add(heroView);
+    public void showMonster(String monsterName) {
+        monsterView.showMonster(monsterName);
     }
 }
