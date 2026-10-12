@@ -27,6 +27,10 @@ public class GameController {
         return gameService.getHero().getHealth();
     }
 
+    public int getHeroMaxHealth() {
+        return gameService.getHero().getMaxHealth();
+    }
+
     public String getMonsterName() {
         return gameService.getCurrentMonster().getName();
     }
@@ -36,6 +40,10 @@ public class GameController {
     }
     public boolean isVictory() {
         return gameService.isVictory();
+    }
+
+    public int getMonsterMaxHealth() {
+        return gameService.getCurrentMonster().getMaxHealth();
     }
 
     public boolean isDefeat() {

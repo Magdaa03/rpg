@@ -14,6 +14,7 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
+import javafx.scene.control.ProgressBar;
 
 import java.io.IOException;
 
@@ -24,6 +25,8 @@ public class GameView extends VBox {
 
     private final Label heroLabel = new Label();
     private final Label monsterLabel = new Label();
+    private final ProgressBar heroHealthBar = new ProgressBar();
+    private final ProgressBar monsterHealthBar = new ProgressBar();
     private final Label messageLabel = new Label();
     private final Label logArea = new Label();
     private final GameArenaView arenaView = new GameArenaView();
@@ -46,6 +49,9 @@ public class GameView extends VBox {
         logArea.setWrapText(true);
         logArea.setMaxWidth(600);
         logArea.setStyle("-fx-text-fill: white;");
+        logArea.setMinHeight(80);
+        logArea.setPrefHeight(80);
+        logArea.setMaxHeight(80);
     }
     private void appendLog(String message) {
         logArea.setText(
@@ -75,14 +81,19 @@ public class GameView extends VBox {
         loadButton.setOnAction(event -> loadGame());
 
         setSpacing(15);
-        setAlignment(Pos.CENTER);
+        setAlignment(Pos.TOP_CENTER);
         HBox logContainer = new HBox(logArea);
         logContainer.setAlignment(Pos.CENTER_LEFT);
         logContainer.setMaxWidth(Double.MAX_VALUE);
 
+        heroHealthBar.setPrefWidth(250);
+        monsterHealthBar.setPrefWidth(250);
+
         getChildren().addAll(
                 heroLabel,
+                heroHealthBar,
                 monsterLabel,
+                monsterHealthBar,
                 messageLabel,
                 arenaView,
                 logContainer,
@@ -159,23 +170,36 @@ public class GameView extends VBox {
     }
 
     private void updateLabels() {
-        heroLabel.setText(
-                "Hero HP: " + gameController.getHeroHealth()
+        int heroHealth = gameController.getHeroHealth();
+
+        heroLabel.setText("Hero HP: " + heroHealth);
+        heroHealthBar.setProgress(
+                (double) heroHealth / gameController.getHeroMaxHealth()
         );
 
         if (gameController.isVictory()) {
             monsterLabel.setText("Victory!");
-        } else if (gameController.isDefeat()) {
+            monsterHealthBar.setProgress(0);
+            return;
+        }
+
+        if (gameController.isDefeat()) {
             monsterLabel.setText("Defeat!");
         } else {
-            String currentMonsterName = gameController.getMonsterName();
-            arenaView.showMonster(currentMonsterName);
+            String monsterName = gameController.getMonsterName();
+            arenaView.showMonster(monsterName);
 
             monsterLabel.setText(
-                    "Monster: " + currentMonsterName
+                    "Monster: " + monsterName
                             + " - HP: " + gameController.getMonsterHealth()
             );
         }
+
+        monsterHealthBar.setProgress(
+                (double) gameController.getMonsterHealth()
+                        / gameController.getMonsterMaxHealth()
+        );
+
     }
 
     private void configureBackground() {

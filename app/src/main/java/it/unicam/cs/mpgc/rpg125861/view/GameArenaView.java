@@ -8,8 +8,8 @@ public class GameArenaView extends HBox {
     private final MonsterView monsterView = new MonsterView();
 
     public GameArenaView() {
-        setPrefHeight(420);
-        setMinHeight(300);
+        setPrefHeight(280);
+        setMinHeight(280);
         setMaxWidth(Double.MAX_VALUE);
         setAlignment(Pos.CENTER);
         setSpacing(250);
