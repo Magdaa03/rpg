@@ -14,7 +14,6 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
-import javafx.scene.control.ProgressBar;
 
 import java.io.IOException;
 
@@ -23,13 +22,11 @@ public class GameView extends VBox {
     private GameController gameController;
     private final GameRepository gameRepository;
 
-    private final Label heroLabel = new Label();
-    private final Label monsterLabel = new Label();
-    private final ProgressBar heroHealthBar = new ProgressBar();
-    private final ProgressBar monsterHealthBar = new ProgressBar();
+
     private final Label messageLabel = new Label();
     private final Label logArea = new Label();
     private final GameArenaView arenaView = new GameArenaView();
+    private final BattleStatusView battleStatusView = new BattleStatusView();
 
     public GameView(
             GameController gameController,
@@ -39,7 +36,6 @@ public class GameView extends VBox {
         this.gameRepository = gameRepository;
 
         configureLogArea();
-        configureLabels();
         configureBackground();
         configureLayout();
         updateLabels();
@@ -59,16 +55,6 @@ public class GameView extends VBox {
         );
     }
 
-    private void configureLabels() {
-        String labelStyle =
-                "-fx-text-fill: white;"
-                        + "-fx-background-color: rgba(0, 0, 0, 0.55);"
-                        + "-fx-padding: 6 10 6 10;";
-
-        heroLabel.setStyle(labelStyle);
-        monsterLabel.setStyle(labelStyle);
-    }
-
     private void configureLayout() {
         Button saveButton = new Button("Save Game");
         Button quickAttackButton = new Button("Quick Attack");
@@ -86,14 +72,10 @@ public class GameView extends VBox {
         logContainer.setAlignment(Pos.CENTER_LEFT);
         logContainer.setMaxWidth(Double.MAX_VALUE);
 
-        heroHealthBar.setPrefWidth(250);
-        monsterHealthBar.setPrefWidth(250);
+
 
         getChildren().addAll(
-                heroLabel,
-                heroHealthBar,
-                monsterLabel,
-                monsterHealthBar,
+                battleStatusView,
                 messageLabel,
                 arenaView,
                 logContainer,
@@ -170,36 +152,11 @@ public class GameView extends VBox {
     }
 
     private void updateLabels() {
-        int heroHealth = gameController.getHeroHealth();
+        battleStatusView.update(gameController);
 
-        heroLabel.setText("Hero HP: " + heroHealth);
-        heroHealthBar.setProgress(
-                (double) heroHealth / gameController.getHeroMaxHealth()
-        );
-
-        if (gameController.isVictory()) {
-            monsterLabel.setText("Victory!");
-            monsterHealthBar.setProgress(0);
-            return;
+        if (!gameController.isVictory() && !gameController.isDefeat()) {
+            arenaView.showMonster(gameController.getMonsterName());
         }
-
-        if (gameController.isDefeat()) {
-            monsterLabel.setText("Defeat!");
-        } else {
-            String monsterName = gameController.getMonsterName();
-            arenaView.showMonster(monsterName);
-
-            monsterLabel.setText(
-                    "Monster: " + monsterName
-                            + " - HP: " + gameController.getMonsterHealth()
-            );
-        }
-
-        monsterHealthBar.setProgress(
-                (double) gameController.getMonsterHealth()
-                        / gameController.getMonsterMaxHealth()
-        );
-
     }
 
     private void configureBackground() {
