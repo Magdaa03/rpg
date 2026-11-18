@@ -23,6 +23,8 @@ public class JsonGameRepository implements GameRepository {
 
         jsonObject.put("heroName", gameSaveData.getHeroName());
         jsonObject.put("heroHealth", gameSaveData.getHeroHealth());
+        jsonObject.put("heroRank", gameSaveData.getHeroRank());
+        jsonObject.put("heroRankProgress", gameSaveData.getHeroRankProgress());
         jsonObject.put(
                 "currentMonsterIndex",
                 gameSaveData.getCurrentMonsterIndex()
@@ -63,6 +65,12 @@ public class JsonGameRepository implements GameRepository {
         gameSaveData.setHeroHealth(
                 ((Number) jsonObject.get("heroHealth")).intValue()
         );
+        if (jsonObject.get("heroRank") instanceof Number rank) {
+            gameSaveData.setHeroRank(rank.intValue());
+        }
+        if (jsonObject.get("heroRankProgress") instanceof Number progress) {
+            gameSaveData.setHeroRankProgress(progress.intValue());
+        }
         gameSaveData.setCurrentMonsterIndex(
                 ((Number) jsonObject.get("currentMonsterIndex")).intValue()
         );
