@@ -9,8 +9,10 @@ import javafx.scene.layout.VBox;
 public class BattleStatusView extends VBox {
 
     private final Label heroLabel = new Label();
+    private final Label rankLabel = new Label();
     private final Label monsterLabel = new Label();
     private final ProgressBar heroHealthBar = new ProgressBar();
+    private final ProgressBar rankProgressBar = new ProgressBar();
     private final ProgressBar monsterHealthBar = new ProgressBar();
 
     public BattleStatusView() {
@@ -24,6 +26,13 @@ public class BattleStatusView extends VBox {
         heroLabel.setText("Hero HP: " + heroHealth);
         heroHealthBar.setProgress(
                 (double) heroHealth / gameController.getHeroMaxHealth()
+        );
+        rankLabel.setText("Rank " + gameController.getHeroRank() + " - Progress: "
+                + gameController.getHeroRankProgress() + "/"
+                + gameController.getRankProgressRequired());
+        rankProgressBar.setProgress(
+                (double) gameController.getHeroRankProgress()
+                        / gameController.getRankProgressRequired()
         );
 
         if (gameController.isVictory()) {
@@ -54,11 +63,13 @@ public class BattleStatusView extends VBox {
                         + "-fx-padding: 6 10 6 10;";
 
         heroLabel.setStyle(labelStyle);
+        rankLabel.setStyle(labelStyle);
         monsterLabel.setStyle(labelStyle);
     }
 
     private void configureLayout() {
         heroHealthBar.setPrefWidth(250);
+        rankProgressBar.setPrefWidth(250);
         monsterHealthBar.setPrefWidth(250);
 
         setSpacing(15);
@@ -66,6 +77,8 @@ public class BattleStatusView extends VBox {
         getChildren().addAll(
                 heroLabel,
                 heroHealthBar,
+                rankLabel,
+                rankProgressBar,
                 monsterLabel,
                 monsterHealthBar
         );

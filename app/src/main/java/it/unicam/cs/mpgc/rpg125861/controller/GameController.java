@@ -31,6 +31,18 @@ public class GameController {
         return gameService.getHero().getMaxHealth();
     }
 
+    public int getHeroRank() {
+        return gameService.getHero().getRank();
+    }
+
+    public int getHeroRankProgress() {
+        return gameService.getHero().getRankProgress();
+    }
+
+    public int getRankProgressRequired() {
+        return gameService.getHero().getRankProgressRequired();
+    }
+
     public String getMonsterName() {
         return gameService.getCurrentMonster().getName();
     }
