@@ -90,6 +90,15 @@ public class GameController {
     private void finishMonsterTurn(Monster attackedMonster) {
         if (attackedMonster.getHealth() <= 0) {
             lastTurnMessages.add(attackedMonster.getName() + " defeated.");
+            boolean rankUp = gameService.recordMonsterDefeat();
+            if (rankUp) {
+                lastTurnMessages.add("Rank up! You reached rank "
+                        + gameService.getHero().getRank() + ".");
+            } else {
+                lastTurnMessages.add("Rank progress: "
+                        + gameService.getHero().getRankProgress() + "/"
+                        + gameService.getHero().getRankProgressRequired() + ".");
+            }
 
             if (gameService.isVictory()) {
                 lastTurnMessages.add("Victory! You defeated all monsters.");

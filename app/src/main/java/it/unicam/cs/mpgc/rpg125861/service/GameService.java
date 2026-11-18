@@ -31,6 +31,10 @@ public class GameService {
     public int getCurrentMonsterIndex() {
         return currentMonsterIndex;
     }
+
+    public boolean recordMonsterDefeat() {
+        return hero.addRankProgress();
+    }
     public boolean isVictory() {
         return currentMonsterIndex >= monsters.size();
     }
