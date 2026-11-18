@@ -7,6 +7,8 @@ public class GameSaveData {
 
     private String heroName;
     private int heroHealth;
+    private int heroRank = 1;
+    private int heroRankProgress;
     private List<Integer> monsterHealths = new ArrayList<>();
     private int currentMonsterIndex;
 
@@ -27,6 +29,22 @@ public class GameSaveData {
 
     public void setHeroHealth(int heroHealth) {
         this.heroHealth = heroHealth;
+    }
+
+    public int getHeroRank() {
+        return heroRank;
+    }
+
+    public void setHeroRank(int heroRank) {
+        this.heroRank = heroRank;
+    }
+
+    public int getHeroRankProgress() {
+        return heroRankProgress;
+    }
+
+    public void setHeroRankProgress(int heroRankProgress) {
+        this.heroRankProgress = heroRankProgress;
     }
 
     public List<Integer> getMonsterHealths() {
