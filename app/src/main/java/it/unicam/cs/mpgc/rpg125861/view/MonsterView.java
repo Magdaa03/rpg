@@ -35,6 +35,7 @@ public class MonsterView extends ImageView {
         setImage(monsterImage);
         setFitWidth(size);
         setFitHeight(size);
+        
         setPreserveRatio(true);
         setSmooth(false);
     }
