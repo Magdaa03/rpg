@@ -146,6 +146,8 @@ public class GameController {
 
         saveData.setHeroName(gameService.getHero().getName());
         saveData.setHeroHealth(gameService.getHero().getHealth());
+        saveData.setHeroRank(gameService.getHero().getRank());
+        saveData.setHeroRankProgress(gameService.getHero().getRankProgress());
         saveData.setCurrentMonsterIndex(
                 gameService.getCurrentMonsterIndex()
         );

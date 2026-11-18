@@ -42,6 +42,9 @@ public class GameFactory {
     private static Hero createHero(GameSaveData saveData) {
         Hero hero = new Hero(saveData.getHeroName());
         hero.restoreHealth(saveData.getHeroHealth());
+        hero.restoreRankProgress(
+                saveData.getHeroRank(), saveData.getHeroRankProgress()
+        );
         return hero;
     }
 
