@@ -9,11 +9,17 @@ public class GameService {
 
     private final Hero hero;
     private final List<Monster> monsters;
+    private final RankProgressionService rankProgressionService;
     private int currentMonsterIndex;
 
-    public GameService(Hero hero, List<Monster> monsters) {
+    public GameService(
+            Hero hero,
+            List<Monster> monsters,
+            RankProgressionService rankProgressionService
+    ) {
         this.hero = hero;
         this.monsters = monsters;
+        this.rankProgressionService = rankProgressionService;
         this.currentMonsterIndex = 0;
     }
 
@@ -33,7 +39,11 @@ public class GameService {
     }
 
     public boolean recordMonsterDefeat() {
-        return hero.addRankProgress();
+        return rankProgressionService.recordMonsterDefeat(hero);
+    }
+
+    public int getRankProgressRequired() {
+        return rankProgressionService.getProgressRequired();
     }
     public boolean isVictory() {
         return currentMonsterIndex >= monsters.size();

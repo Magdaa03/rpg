@@ -4,6 +4,7 @@ import it.unicam.cs.mpgc.rpg125861.entity.Hero;
 import it.unicam.cs.mpgc.rpg125861.entity.Monster;
 import it.unicam.cs.mpgc.rpg125861.service.CombatService;
 import it.unicam.cs.mpgc.rpg125861.service.GameService;
+import it.unicam.cs.mpgc.rpg125861.service.RankProgressionService;
 import it.unicam.cs.mpgc.rpg125861.persistence.GameSaveData;
 
 import java.util.List;
@@ -20,7 +21,11 @@ public class GameFactory {
 
     public static GameController newGame(String heroName) {
         Hero hero = new Hero(heroName);
-        GameService gameService = new GameService(hero, createMonsters());
+        RankProgressionService rankProgressionService =
+                new RankProgressionService();
+        GameService gameService = new GameService(
+                hero, createMonsters(), rankProgressionService
+        );
         CombatService combatService = new CombatService();
 
         return new GameController(gameService, combatService);
@@ -28,21 +33,29 @@ public class GameFactory {
 
     public static GameController loadGame(GameSaveData saveData) {
         List<Monster> monsters = createMonsters();
+        RankProgressionService rankProgressionService =
+                new RankProgressionService();
         validateSaveData(saveData, monsters.size());
 
-        Hero hero = createHero(saveData);
+        Hero hero = createHero(saveData, rankProgressionService);
         restoreMonsterHealths(monsters, saveData.getMonsterHealths());
 
-        GameService gameService = new GameService(hero, monsters);
+        GameService gameService = new GameService(
+                hero, monsters, rankProgressionService
+        );
         restoreCurrentMonster(gameService, saveData.getCurrentMonsterIndex());
 
         return new GameController(gameService, new CombatService());
     }
 
-    private static Hero createHero(GameSaveData saveData) {
+    private static Hero createHero(
+            GameSaveData saveData,
+            RankProgressionService rankProgressionService
+    ) {
         Hero hero = new Hero(saveData.getHeroName());
         hero.restoreHealth(saveData.getHeroHealth());
-        hero.restoreRankProgress(
+        rankProgressionService.restoreProgress(
+                hero,
                 saveData.getHeroRank(), saveData.getHeroRankProgress()
         );
         return hero;

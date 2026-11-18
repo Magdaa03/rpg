@@ -40,7 +40,7 @@ public class GameController {
     }
 
     public int getRankProgressRequired() {
-        return gameService.getHero().getRankProgressRequired();
+        return gameService.getRankProgressRequired();
     }
 
     public String getMonsterName() {
@@ -109,7 +109,7 @@ public class GameController {
             } else {
                 lastTurnMessages.add("Rank progress: "
                         + gameService.getHero().getRankProgress() + "/"
-                        + gameService.getHero().getRankProgressRequired() + ".");
+                        + gameService.getRankProgressRequired() + ".");
             }
 
             if (gameService.isVictory()) {
