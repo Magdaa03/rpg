@@ -43,4 +43,4 @@ Il file dei salvataggi `savegame.json` viene creato nella directory di esecuzion
 
 ## Uso di strumenti di AI
 
-Durante lo sviluppo ho utilizzato ChatGPT come supporto per confrontare idee sulle regole di gioco, sui personaggi e sul design dell’interfaccia, oltre che per chiarire concetti di Java e JavaFX e risolvere problemi. Le decisioni finali sul gioco e sulle modifiche da adottare sono state mie. La Wiki descrive nel dettaglio l’uso dell’AI.
+Ho utilizzato ChatGPT come supporto durante lo sviluppo, soprattutto per chiarire dubbi sugli argomenti e sulle tecnologie affrontate, e per trovare spunti su alcuni aspetti del gioco. Le scelte e le soluzioni adottate nel progetto sono state valutate e definite da me; la Wiki approfondisce l’uso dell’AI.
